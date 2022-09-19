@@ -1,13 +1,17 @@
 package com.udemy.workshopmongo.resources;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.udemy.workshopmongo.domain.Post;
+import com.udemy.workshopmongo.resources.util.URL;
 import com.udemy.workshopmongo.services.PostService;
 
 @RestController
@@ -24,4 +28,13 @@ public class PostResource {
 
 	}
 
+	@GetMapping(value = "/titlesearch")
+	public ResponseEntity<List<Post>> findByIdTitle(@RequestParam(value ="text", defaultValue = "") String text) {
+		text = URL.decoderParam(text);
+		List<Post> list = postService.findByTitle(text);
+		return ResponseEntity.ok().body(list);
+
+	}
+	
+	
 }
